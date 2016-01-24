@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinalife.tools.dao.mapper.PerfApprStaffMapper" >
+  <resultMap id="BaseResultMap" type="com.chinalife.tools.dao.entity.PerfApprStaff" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="organization" property="organization" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="department2" property="department2" jdbcType="VARCHAR" />
+    <result column="employee_num" property="employeeNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="post_dept" property="postDept" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="birthdate" property="birthdate" jdbcType="DATE" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="minority" property="minority" jdbcType="VARCHAR" />
+    <result column="birth_place" property="birthPlace" jdbcType="VARCHAR" />
+    <result column="university" property="university" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, organization, department, channel, department2, employee_num, name, post_dept, 
+    duty, birthdate, age, minority, birth_place, university, education, entry_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chinalife.tools.dao.entity.PerfApprStaffExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from chinalife.perf_appr_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="page != null" >
+      limit #{page.begin} , #{page.rows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from chinalife.perf_appr_staff
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from chinalife.perf_appr_staff
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chinalife.tools.dao.entity.PerfApprStaffExample" >
+    delete from chinalife.perf_appr_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chinalife.tools.dao.entity.PerfApprStaff" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into chinalife.perf_appr_staff (organization, department, channel, 
+      department2, employee_num, name, 
+      post_dept, duty, birthdate, 
+      age, minority, birth_place, 
+      university, education, entry_time
+      )
+    values (#{organization,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{department2,jdbcType=VARCHAR}, #{employeeNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{postDept,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, #{birthdate,jdbcType=DATE}, 
+      #{age,jdbcType=INTEGER}, #{minority,jdbcType=VARCHAR}, #{birthPlace,jdbcType=VARCHAR}, 
+      #{university,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{entryTime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinalife.tools.dao.entity.PerfApprStaff" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into chinalife.perf_appr_staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="organization != null" >
+        organization,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="department2 != null" >
+        department2,
+      </if>
+      <if test="employeeNum != null" >
+        employee_num,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="postDept != null" >
+        post_dept,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="birthdate != null" >
+        birthdate,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="minority != null" >
+        minority,
+      </if>
+      <if test="birthPlace != null" >
+        birth_place,
+      </if>
+      <if test="university != null" >
+        university,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="entryTime != null" >
+        entry_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="organization != null" >
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="department2 != null" >
+        #{department2,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeNum != null" >
+        #{employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="postDept != null" >
+        #{postDept,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="minority != null" >
+        #{minority,jdbcType=VARCHAR},
+      </if>
+      <if test="birthPlace != null" >
+        #{birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="university != null" >
+        #{university,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chinalife.tools.dao.entity.PerfApprStaffExample" resultType="java.lang.Integer" >
+    select count(*) from chinalife.perf_appr_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update chinalife.perf_appr_staff
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.organization != null" >
+        organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channel != null" >
+        channel = #{record.channel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department2 != null" >
+        department2 = #{record.department2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeNum != null" >
+        employee_num = #{record.employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postDept != null" >
+        post_dept = #{record.postDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duty != null" >
+        duty = #{record.duty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthdate != null" >
+        birthdate = #{record.birthdate,jdbcType=DATE},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.minority != null" >
+        minority = #{record.minority,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthPlace != null" >
+        birth_place = #{record.birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.university != null" >
+        university = #{record.university,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryTime != null" >
+        entry_time = #{record.entryTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update chinalife.perf_appr_staff
+    set id = #{record.id,jdbcType=INTEGER},
+      organization = #{record.organization,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      channel = #{record.channel,jdbcType=VARCHAR},
+      department2 = #{record.department2,jdbcType=VARCHAR},
+      employee_num = #{record.employeeNum,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      post_dept = #{record.postDept,jdbcType=VARCHAR},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      birthdate = #{record.birthdate,jdbcType=DATE},
+      age = #{record.age,jdbcType=INTEGER},
+      minority = #{record.minority,jdbcType=VARCHAR},
+      birth_place = #{record.birthPlace,jdbcType=VARCHAR},
+      university = #{record.university,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=VARCHAR},
+      entry_time = #{record.entryTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinalife.tools.dao.entity.PerfApprStaff" >
+    update chinalife.perf_appr_staff
+    <set >
+      <if test="organization != null" >
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="department2 != null" >
+        department2 = #{department2,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeNum != null" >
+        employee_num = #{employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="postDept != null" >
+        post_dept = #{postDept,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null" >
+        birthdate = #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="minority != null" >
+        minority = #{minority,jdbcType=VARCHAR},
+      </if>
+      <if test="birthPlace != null" >
+        birth_place = #{birthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="university != null" >
+        university = #{university,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entry_time = #{entryTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinalife.tools.dao.entity.PerfApprStaff" >
+    update chinalife.perf_appr_staff
+    set organization = #{organization,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      department2 = #{department2,jdbcType=VARCHAR},
+      employee_num = #{employeeNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      post_dept = #{postDept,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      birthdate = #{birthdate,jdbcType=DATE},
+      age = #{age,jdbcType=INTEGER},
+      minority = #{minority,jdbcType=VARCHAR},
+      birth_place = #{birthPlace,jdbcType=VARCHAR},
+      university = #{university,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      entry_time = #{entryTime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
