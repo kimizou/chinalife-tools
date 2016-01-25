@@ -163,4 +163,20 @@ $(function() {
         return false;
     });
 
+    if ($("#ajaxloading").size() == 0) {
+        $('body').append('<div id="ajaxloading"><i></i></div>');
+    }
+    if(typeof noloading =="undefined"){
+        $.ajaxSetup({
+            beforeSend:function(){
+                $('#ajaxloading').show();
+            },
+            complete:function(){
+                $('#ajaxloading').hide();
+            },error:function(){
+                $('#ajaxloading').hide();
+            }
+        });
+    }
+
 });
