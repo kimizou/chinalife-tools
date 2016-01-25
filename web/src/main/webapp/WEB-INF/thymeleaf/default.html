@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!-- Mirrored from usman.it/themes/charisma/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 03 Jan 2016 13:34:25 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
@@ -128,9 +128,8 @@
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span> 量化考核</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a th:href="@{/performance-appraisal}">考核</a></li>
-                                <li><a th:href="@{/performance-appraisal/staff}">人员清单</a></li>
                                 <li><a th:href="@{/quantitative-assessment/price}">量化单价</a></li>
+                                <li><a th:href="@{/quantitative-assessment/workload}">工作量统计</a></li>
                             </ul>
                         </li>
                         <li><a class="ajax-link" href="ui.html"><i class="glyphicon glyphicon-eye-open"></i><span> UI Features</span></a>
@@ -176,7 +175,7 @@
             </div>
             <div class="row">
                 <div class="box col-md-12">
-                    <div class="box-inner" th:include="${viewname} :: content"></div>
+                    <div class="box-inner" layout:fragment="content"></div>
                 </div>
             </div>
         </div>

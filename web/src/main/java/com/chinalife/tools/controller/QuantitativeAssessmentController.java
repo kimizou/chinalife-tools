@@ -11,7 +11,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +29,13 @@ public class QuantitativeAssessmentController {
     private QuantitativePriceService quantitativePriceService;
 
     @RequestMapping(value = "price", method = RequestMethod.GET)
-    public String staffIndex(Model model) {
-        model.addAttribute("viewname", "/quantitative-assessment/price");
-        return "default";
+    public String staffIndex() {
+        return "quantitative-assessment/price";
+    }
+
+    @RequestMapping(value = "workload", method = RequestMethod.GET)
+    public String workloadIndex() {
+        return "quantitative-assessment/workload";
     }
 
     @ResponseBody

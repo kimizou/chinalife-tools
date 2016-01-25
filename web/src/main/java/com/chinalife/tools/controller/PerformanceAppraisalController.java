@@ -7,7 +7,6 @@ import com.chinalife.tools.util.PageableContent;
 import com.chinalife.tools.web.WebResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,9 +21,8 @@ public class PerformanceAppraisalController {
     private PerfApprStaffService perfApprStaffService;
 
     @RequestMapping(value = "staff", method = RequestMethod.GET)
-    public String staffIndex(Model model) {
-        model.addAttribute("viewname", "/performance-appraisal/staff");
-        return "default";
+    public String staffIndex() {
+        return "performance-appraisal/staff";
     }
 
     @ResponseBody
