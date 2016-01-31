@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chinalife.tools.dao.mapper.WorkloadDetailMapperExt">
+    <resultMap id="SumResult" type="com.chinalife.tools.dao.entity.SumResult">
+        <result column="employee_num" property="employeeNum"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+    
     <insert id="insertWorkloads">
         INSERT INTO chinalife.workload_detail(workload_id,type,institution,employee_num,operator,system,project_code,project_name,date,num)
         VALUES
@@ -8,4 +14,24 @@
             (#{workloadId},#{item.type},#{item.institution},#{item.employeeNum},#{item.operator},#{item.system},#{item.projectCode},#{item.projectName},#{item.date},#{item.num})
         </foreach>
     </insert>
+
+    <select id="countSumResult" resultType="java.lang.Integer">
+        SELECT
+            count(DISTINCT employee_num)
+        FROM
+            chinalife.workload_detail
+    </select>
+
+    <select id="selectSumResult" resultMap="SumResult">
+        SELECT
+            wd.employee_num,
+            min(wd.operator) AS employee_name,
+            sum(wd.num * qp.price) AS amount
+        FROM
+            chinalife.workload_detail AS wd
+        LEFT JOIN chinalife.quantitative_price AS qp ON wd.project_name = qp.task_name
+        GROUP BY
+            wd.employee_num
+        LIMIT #{page.begin}, #{page.rows}
+    </select>
 </mapper>

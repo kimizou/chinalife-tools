@@ -3,6 +3,7 @@ package com.chinalife.tools.controller;
 import com.chinalife.tools.common.BizResultCodeEnum;
 import com.chinalife.tools.common.exception.BizException;
 import com.chinalife.tools.dao.entity.QuantitativePrice;
+import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.service.QuantitativeAssessmentService;
@@ -16,6 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -130,8 +132,20 @@ public class QuantitativeAssessmentController {
 
     @ResponseBody
     @RequestMapping(value = "workload/search", method = RequestMethod.POST)
-    public WebResult<PageableContent<Workload>> importWorkloadSave(int currentPage, int rows, String yearMonth) {
+    public WebResult<PageableContent<Workload>> workloadSearch(int currentPage, int rows, String yearMonth) {
         PageableContent<Workload> list = quantitativeAssessmentService.searchWorkload(currentPage, rows, yearMonth);
         return new WebResult<PageableContent<Workload>>(BizResultCodeEnum.SUCCESS, list);
+    }
+
+    @RequestMapping(value = "workload/detail", method = RequestMethod.GET)
+    public String workloadDetail(Model model, Long id) {
+        return "quantitative-assessment/workload/detail";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/sum/search", method = RequestMethod.POST)
+    public WebResult<PageableContent<SumResult>> sumResultSearch(int currentPage, int rows) {
+        PageableContent<SumResult> list = quantitativeAssessmentService.searchSumResult(currentPage, rows);
+        return new WebResult<PageableContent<SumResult>>(BizResultCodeEnum.SUCCESS, list);
     }
 }

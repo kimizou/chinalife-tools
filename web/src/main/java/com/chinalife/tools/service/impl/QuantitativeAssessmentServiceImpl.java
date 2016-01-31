@@ -1,5 +1,6 @@
 package com.chinalife.tools.service.impl;
 
+import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.dao.entity.WorkloadExample;
@@ -48,5 +49,14 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
             list = workloadMapperExt.selectByExample(example);
         }
         return new PageableContent<Workload>(list, currentPage, rows, totalCount);
+    }
+
+    public PageableContent<SumResult> searchSumResult(int currentPage, int rows) {
+        List<SumResult> list = new ArrayList<SumResult>();
+        int totalCount = workloadDetailMapperExt.countSumResult();
+        if (totalCount > 0) {
+            list = workloadDetailMapperExt.selectSumResult(new Page(currentPage, rows));
+        }
+        return new PageableContent<SumResult>(list, currentPage, rows, totalCount);
     }
 }
