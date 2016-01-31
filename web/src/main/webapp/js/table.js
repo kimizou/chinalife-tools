@@ -1,6 +1,6 @@
 $(function() {
 
-    $('div.datatable').each(function() {
+    $('form.searchForm').each(function() {
         var page = 1;
         var nodata = "没有相关内容";
         var me = $(this);
@@ -9,10 +9,8 @@ $(function() {
                 'currentPage': page,
                 rows: me.find("#Pagination").data('pagesize') || 10
             };
-            if (me.find('#searchForm').size()) {
-                var args = getParam(me.find('#searchForm')) || {};
-                data = $.extend(data, args);
-            }
+            var args = getParam(me) || {};
+            data = $.extend(data, args);
             var url = me.find('#table').attr('href');
             $.post(url, data, function(result) {
                 if (!b) {

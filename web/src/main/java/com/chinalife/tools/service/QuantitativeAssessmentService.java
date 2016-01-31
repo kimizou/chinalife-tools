@@ -15,5 +15,7 @@ public interface QuantitativeAssessmentService {
 
     PageableContent<Workload> searchWorkload(int currentPage, int rows, String yearMonth);
 
-    PageableContent<SumResult> searchSumResult(int currentPage, int rows);
+    PageableContent<SumResult> searchSumResult(int currentPage, int rows, Long workloadId);
+
+    PageableContent<WorkloadDetail> searchWorkloadDetails(int currentPage, int rows, Long workloadId);
 }

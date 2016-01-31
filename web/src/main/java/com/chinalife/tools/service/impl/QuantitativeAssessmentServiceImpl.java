@@ -3,6 +3,7 @@ package com.chinalife.tools.service.impl;
 import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
+import com.chinalife.tools.dao.entity.WorkloadDetailExample;
 import com.chinalife.tools.dao.entity.WorkloadExample;
 import com.chinalife.tools.dao.mapper.WorkloadDetailMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadMapperExt;
@@ -51,12 +52,24 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         return new PageableContent<Workload>(list, currentPage, rows, totalCount);
     }
 
-    public PageableContent<SumResult> searchSumResult(int currentPage, int rows) {
+    public PageableContent<SumResult> searchSumResult(int currentPage, int rows, Long workloadId) {
         List<SumResult> list = new ArrayList<SumResult>();
-        int totalCount = workloadDetailMapperExt.countSumResult();
+        int totalCount = workloadDetailMapperExt.countSumResult(workloadId);
         if (totalCount > 0) {
-            list = workloadDetailMapperExt.selectSumResult(new Page(currentPage, rows));
+            list = workloadDetailMapperExt.selectSumResult(workloadId, new Page(currentPage, rows));
         }
         return new PageableContent<SumResult>(list, currentPage, rows, totalCount);
+    }
+
+    public PageableContent<WorkloadDetail> searchWorkloadDetails(int currentPage, int rows, Long workloadId) {
+        List<WorkloadDetail> list = new ArrayList<WorkloadDetail>();
+        WorkloadDetailExample example = new WorkloadDetailExample();
+        example.createCriteria().andWorkloadIdEqualTo(workloadId);
+        int totalCount = workloadDetailMapperExt.countByExample(example);
+        if (totalCount > 0) {
+            example.setPage(new Page(currentPage, rows));
+            list = workloadDetailMapperExt.selectByExample(example);
+        }
+        return new PageableContent<WorkloadDetail>(list, currentPage, rows, totalCount);
     }
 }

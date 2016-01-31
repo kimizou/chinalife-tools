@@ -10,7 +10,7 @@ import java.util.List;
 public interface WorkloadDetailMapperExt extends WorkloadDetailMapper {
     void insertWorkloads(@Param("workloadId") Long workloadId, @Param("list") List<WorkloadDetail> list);
 
-    int countSumResult();
+    int countSumResult(Long workloadId);
 
-    List<SumResult> selectSumResult(@Param("page") Page page);
+    List<SumResult> selectSumResult(@Param("workloadId") Long workloadId, @Param("page") Page page);
 }

@@ -139,13 +139,21 @@ public class QuantitativeAssessmentController {
 
     @RequestMapping(value = "workload/detail", method = RequestMethod.GET)
     public String workloadDetail(Model model, Long id) {
+        model.addAttribute("workloadId", id);
         return "quantitative-assessment/workload/detail";
     }
 
     @ResponseBody
     @RequestMapping(value = "workload/sum/search", method = RequestMethod.POST)
-    public WebResult<PageableContent<SumResult>> sumResultSearch(int currentPage, int rows) {
-        PageableContent<SumResult> list = quantitativeAssessmentService.searchSumResult(currentPage, rows);
+    public WebResult<PageableContent<SumResult>> sumResultSearch(int currentPage, int rows, Long workloadId) {
+        PageableContent<SumResult> list = quantitativeAssessmentService.searchSumResult(currentPage, rows, workloadId);
         return new WebResult<PageableContent<SumResult>>(BizResultCodeEnum.SUCCESS, list);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/detail/search", method = RequestMethod.POST)
+    public WebResult<PageableContent<WorkloadDetail>> searchWorkloadDetails(int currentPage, int rows, Long workloadId) {
+        PageableContent<WorkloadDetail> list = quantitativeAssessmentService.searchWorkloadDetails(currentPage, rows, workloadId);
+        return new WebResult<PageableContent<WorkloadDetail>>(BizResultCodeEnum.SUCCESS, list);
     }
 }
