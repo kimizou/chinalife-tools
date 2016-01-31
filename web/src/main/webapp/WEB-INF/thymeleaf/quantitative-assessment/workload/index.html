@@ -8,8 +8,8 @@
                 <a class="btn btn-search js-search fl f14" href="javascript:void(0);">
                     <i class="glyphicon glyphicon-search icon-white"></i> 搜索
                 </a>
-                <a class="btn btn-orange fr" href="javascript:void(0);" id="importBtn">
-                    <i class="glyphicon glyphicon-import icon-white"></i> 导入
+                <a class="btn btn-orange fr" th:href="@{/quantitative-assessment/workload/add}">
+                    <i class="glyphicon glyphicon-plus icon-white"></i> 新增
                 </a>
             </div>
         </form>
@@ -81,7 +81,6 @@
         </div>
     </div>
 
-    <script th:src="@{/js/ajaxfileupload.js}"></script>
-    <script th:src="@{/js/quantittative-assessment/price.js}"></script>
+    <script th:src="@{/js/quantitative-assessment/workload/workload.js}"></script>
 </div>
 </html>

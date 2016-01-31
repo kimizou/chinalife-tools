@@ -35,7 +35,12 @@ public class QuantitativeAssessmentController {
 
     @RequestMapping(value = "workload", method = RequestMethod.GET)
     public String workloadIndex() {
-        return "quantitative-assessment/workload";
+        return "quantitative-assessment/workload/index";
+    }
+
+    @RequestMapping(value = "workload/add", method = RequestMethod.GET)
+    public String workloadAdd() {
+        return "quantitative-assessment/workload/edit";
     }
 
     @ResponseBody

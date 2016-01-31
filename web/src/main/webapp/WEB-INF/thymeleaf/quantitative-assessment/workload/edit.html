@@ -1,0 +1,30 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default">
+<div layout:fragment="content">
+    <link th:href="@{/bower_components/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
+    <div class="box-content">
+        <table>
+            <tr>
+                <td>选择日期：</td>
+                <td>
+                    <div class='input-group date form_date'>
+                        <input name="startTm" id="datetimepicker" type='text' class="form-control input-sm"
+                               readonly="readonly"/>
+                        <span class="input-group-addon input-sm">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>选择文件：</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <script th:src="@{/bower_components/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/bower_components/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <script th:src="@{/js/ajaxfileupload.js}"></script>
+    <script th:src="@{/js/quantitative-assessment/workload/workload.js}"></script>
+</div>
+</html>
