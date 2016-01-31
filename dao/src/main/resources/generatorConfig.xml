@@ -39,6 +39,17 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
         </table>
+        <table tableName="workload" domainObjectName="Workload" enableCountByExample="true">
+            <property name="runtimeSchema" value="chinalife"/>
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+        </table>
+        <table tableName="workload_detail" domainObjectName="WorkloadDetail" enableCountByExample="true">
+            <property name="runtimeSchema" value="chinalife"/>
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+            <columnOverride column="workload_id" property="workloadId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+        </table>
     </context>
 
 </generatorConfiguration>

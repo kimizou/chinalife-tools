@@ -3,21 +3,30 @@ package com.chinalife.tools.controller;
 import com.chinalife.tools.common.BizResultCodeEnum;
 import com.chinalife.tools.common.exception.BizException;
 import com.chinalife.tools.dao.entity.QuantitativePrice;
+import com.chinalife.tools.dao.entity.Workload;
+import com.chinalife.tools.dao.entity.WorkloadDetail;
+import com.chinalife.tools.service.QuantitativeAssessmentService;
 import com.chinalife.tools.service.QuantitativePriceService;
 import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.util.excel.ExcelReaderUtil;
+import com.chinalife.tools.util.excel.RowReader;
 import com.chinalife.tools.web.WebResult;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/24.
@@ -27,6 +36,9 @@ import java.io.IOException;
 public class QuantitativeAssessmentController {
     @Autowired
     private QuantitativePriceService quantitativePriceService;
+
+    @Autowired
+    private QuantitativeAssessmentService quantitativeAssessmentService;
 
     @RequestMapping(value = "price", method = RequestMethod.GET)
     public String staffIndex() {
@@ -39,7 +51,8 @@ public class QuantitativeAssessmentController {
     }
 
     @RequestMapping(value = "workload/add", method = RequestMethod.GET)
-    public String workloadAdd() {
+    public String workloadAdd(HttpServletRequest request) {
+        request.getSession().removeAttribute("importWorkloadData");
         return "quantitative-assessment/workload/edit";
     }
 
@@ -68,5 +81,57 @@ public class QuantitativeAssessmentController {
         }
 
         return new WebResult<PageableContent<QuantitativePrice>>(BizResultCodeEnum.SUCCESS);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/import", method = RequestMethod.POST)
+    public WebResult<String> importWorkload(@RequestParam("fileToUpload") MultipartFile file, HttpServletRequest request) {
+        RowReader rowReader = new RowReader();
+        try {
+            ExcelReaderUtil.readExcel(rowReader, file.getOriginalFilename(), file.getInputStream());
+        } catch (IOException e) {
+            throw new BizException(e);
+        }
+        request.getSession().setAttribute("importWorkloadData", rowReader.getWorkloadDetails());
+        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/import/search", method = RequestMethod.POST)
+    public WebResult<PageableContent<WorkloadDetail>> importWorkloadSearch(int currentPage, int rows, HttpServletRequest request) {
+        List<WorkloadDetail> list = new ArrayList<WorkloadDetail>();
+
+        int totalRows = 0;
+        List<WorkloadDetail> data = (List<WorkloadDetail>) request.getSession().getAttribute("importWorkloadData");
+        if (!CollectionUtils.isEmpty(data)) {
+            totalRows = data.size();
+            int startIndex = (currentPage - 1) * rows;
+            int endIndex = startIndex + rows - 1;
+            for (int i = startIndex; i <= endIndex && i <= data.size() - 1; i++) {
+                list.add(data.get(i));
+            }
+        }
+
+        PageableContent<WorkloadDetail> result = new PageableContent<WorkloadDetail>(list, currentPage, rows, totalRows);
+
+        return new WebResult<PageableContent<WorkloadDetail>>(BizResultCodeEnum.SUCCESS, result);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/import/save", method = RequestMethod.POST)
+    public WebResult<String> importWorkloadSave(String yearMonth, HttpServletRequest request) {
+        List<WorkloadDetail> list = (List<WorkloadDetail>) request.getSession().getAttribute("importWorkloadData");
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BizException("工作量数据不能为空，请先选择文件导入");
+        }
+        quantitativeAssessmentService.saveWorkLoad(yearMonth, list);
+        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "workload/search", method = RequestMethod.POST)
+    public WebResult<PageableContent<Workload>> importWorkloadSave(int currentPage, int rows, String yearMonth) {
+        PageableContent<Workload> list = quantitativeAssessmentService.searchWorkload(currentPage, rows, yearMonth);
+        return new WebResult<PageableContent<Workload>>(BizResultCodeEnum.SUCCESS, list);
     }
 }

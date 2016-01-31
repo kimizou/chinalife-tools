@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chinalife.tools.dao.mapper.WorkloadDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.chinalife.tools.dao.entity.WorkloadDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="workload_id" property="workloadId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="institution" property="institution" jdbcType="VARCHAR" />
+    <result column="employee_num" property="employeeNum" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="system" property="system" jdbcType="VARCHAR" />
+    <result column="project_code" property="projectCode" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="DATE" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, workload_id, type, institution, employee_num, operator, system, project_code, 
+    project_name, date, num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chinalife.tools.dao.entity.WorkloadDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from chinalife.workload_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="page != null" >
+      limit #{page.begin} , #{page.rows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from chinalife.workload_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from chinalife.workload_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chinalife.tools.dao.entity.WorkloadDetailExample" >
+    delete from chinalife.workload_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chinalife.tools.dao.entity.WorkloadDetail" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into chinalife.workload_detail (workload_id, type, institution, 
+      employee_num, operator, system, 
+      project_code, project_name, date, 
+      num)
+    values (#{workloadId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{institution,jdbcType=VARCHAR}, 
+      #{employeeNum,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{system,jdbcType=VARCHAR}, 
+      #{projectCode,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, 
+      #{num,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chinalife.tools.dao.entity.WorkloadDetail" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into chinalife.workload_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workloadId != null" >
+        workload_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="institution != null" >
+        institution,
+      </if>
+      <if test="employeeNum != null" >
+        employee_num,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="system != null" >
+        system,
+      </if>
+      <if test="projectCode != null" >
+        project_code,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workloadId != null" >
+        #{workloadId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="institution != null" >
+        #{institution,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeNum != null" >
+        #{employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null" >
+        #{system,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chinalife.tools.dao.entity.WorkloadDetailExample" resultType="java.lang.Integer" >
+    select count(*) from chinalife.workload_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update chinalife.workload_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.workloadId != null" >
+        workload_id = #{record.workloadId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.institution != null" >
+        institution = #{record.institution,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeNum != null" >
+        employee_num = #{record.employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.system != null" >
+        system = #{record.system,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null" >
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null" >
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null" >
+        date = #{record.date,jdbcType=DATE},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update chinalife.workload_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      workload_id = #{record.workloadId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR},
+      institution = #{record.institution,jdbcType=VARCHAR},
+      employee_num = #{record.employeeNum,jdbcType=VARCHAR},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      system = #{record.system,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=DATE},
+      num = #{record.num,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chinalife.tools.dao.entity.WorkloadDetail" >
+    update chinalife.workload_detail
+    <set >
+      <if test="workloadId != null" >
+        workload_id = #{workloadId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="institution != null" >
+        institution = #{institution,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeNum != null" >
+        employee_num = #{employeeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="system != null" >
+        system = #{system,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null" >
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chinalife.tools.dao.entity.WorkloadDetail" >
+    update chinalife.workload_detail
+    set workload_id = #{workloadId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      institution = #{institution,jdbcType=VARCHAR},
+      employee_num = #{employeeNum,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      system = #{system,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      date = #{date,jdbcType=DATE},
+      num = #{num,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
