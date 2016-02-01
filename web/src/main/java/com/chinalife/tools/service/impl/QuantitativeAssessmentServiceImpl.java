@@ -37,6 +37,7 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         workloadDetailMapperExt.insertWorkloads(workload.getId(), workloadDetails);
     }
 
+    @Transactional(readOnly = true)
     public PageableContent<Workload> searchWorkload(int currentPage, int rows, String yearMonth) {
         List<Workload> list = new ArrayList<Workload>();
 
@@ -52,6 +53,7 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         return new PageableContent<Workload>(list, currentPage, rows, totalCount);
     }
 
+    @Transactional(readOnly = true)
     public PageableContent<SumResult> searchSumResult(int currentPage, int rows, Long workloadId) {
         List<SumResult> list = new ArrayList<SumResult>();
         int totalCount = workloadDetailMapperExt.countSumResult(workloadId);
@@ -61,6 +63,7 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         return new PageableContent<SumResult>(list, currentPage, rows, totalCount);
     }
 
+    @Transactional(readOnly = true)
     public PageableContent<WorkloadDetail> searchWorkloadDetails(int currentPage, int rows, Long workloadId) {
         List<WorkloadDetail> list = new ArrayList<WorkloadDetail>();
         WorkloadDetailExample example = new WorkloadDetailExample();
