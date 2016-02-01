@@ -9,22 +9,6 @@ $(function () {
         language: 'zh-CN'
     });
 
-    $('#fileToUpload').bind('change', function() {
-        $('#fileShowInput').val(this.value);
-        $.ajaxFileUpload({
-            url: '/quantitative-assessment/workload/import',
-            secureuri: false,
-            fileElementId: 'fileToUpload',
-            dataType: 'json',
-            success: function (data, status) {
-                $("#hiddenSearch").click();
-            },
-            error: function (data, status, e) {
-                $("#result").append(data);
-            }
-        });
-    });
-
     $('#saveBtn').click(function () {
         var yearMonth = $('input[name="yearMonth"]').val();
         if (yearMonth == '') {
@@ -45,3 +29,25 @@ $(function () {
     });
 
 });
+
+function uploadFile(val) {
+    $('#fileShowInput').val(val);
+    $.ajaxFileUpload({
+        url: '/quantitative-assessment/workload/import',
+        secureuri: false,
+        fileElementId: 'fileToUpload',
+        dataType: 'json',
+        success: function (data) {
+            if (data && data.success) {
+                $("#hiddenSearch").click();
+            } else if (data && data.message) {
+                $.alert(data.message);
+            } else {
+                $.alert('导入失败');
+            }
+        },
+        error: function () {
+            $.alert('导入失败');
+        }
+    });
+}
