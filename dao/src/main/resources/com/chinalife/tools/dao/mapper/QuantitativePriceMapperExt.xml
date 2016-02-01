@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.chinalife.tools.dao.mapper.QuantitativePriceMapperExt" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.tools.dao.mapper.QuantitativePriceMapperExt">
+    <insert id="insertPrices">
+        insert into chinalife.quantitative_price (task_name, price) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.taskName},#{item.price})
+        </foreach>
+    </insert>
 </mapper>

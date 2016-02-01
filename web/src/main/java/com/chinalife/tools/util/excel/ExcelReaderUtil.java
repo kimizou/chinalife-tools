@@ -30,7 +30,7 @@ public class ExcelReaderUtil {
         } else if (fileName.endsWith(EXCEL07_EXTENSION)) {
             Excel2007Reader excel07 = new Excel2007Reader();
             excel07.setRowReader(reader);
-            excel07.process(fileName);
+            excel07.process(is);
         } else {
             throw new BizException("文件格式错误，fileName的扩展名只能是xls或xlsx");
         }

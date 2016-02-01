@@ -1,10 +1,12 @@
 package com.chinalife.tools.service.impl;
 
+import com.chinalife.tools.dao.entity.QuantitativePrice;
 import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.dao.entity.WorkloadDetailExample;
 import com.chinalife.tools.dao.entity.WorkloadExample;
+import com.chinalife.tools.dao.mapper.QuantitativePriceMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadDetailMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadMapperExt;
 import com.chinalife.tools.dao.util.Page;
@@ -30,11 +32,19 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
     @Autowired
     private WorkloadDetailMapperExt workloadDetailMapperExt;
 
+    @Autowired
+    private QuantitativePriceMapperExt quantitativePriceMapperExt;
+
     public void saveWorkLoad(String yearMonth, List<WorkloadDetail> workloadDetails) {
         Workload workload = new Workload();
         workload.setYearMonthDate(yearMonth);
         workloadMapperExt.insert(workload);
         workloadDetailMapperExt.insertWorkloads(workload.getId(), workloadDetails);
+    }
+
+    public void savePrices(List<QuantitativePrice> quantitativePrices) {
+        quantitativePriceMapperExt.deleteByExample(null);
+        quantitativePriceMapperExt.insertPrices(quantitativePrices);
     }
 
     @Transactional(readOnly = true)

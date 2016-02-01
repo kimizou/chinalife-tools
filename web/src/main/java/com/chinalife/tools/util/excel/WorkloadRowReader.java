@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RowReader implements IRowReader {
+public class WorkloadRowReader implements IRowReader {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     private List<WorkloadDetail> workloadDetails = new ArrayList<WorkloadDetail>();
