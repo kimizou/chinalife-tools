@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.chinalife.tools.web.exception.ImportFileParseException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
@@ -27,7 +28,7 @@ public class Excel2007Reader extends DefaultHandler {
 
     @SuppressWarnings("unused")
     private int sheetIndex = -1;
-    private List<String> rowlist = new ArrayList<String>();
+    private List<String> rowlist = new ArrayList<>();
     private int curRow = 0;     //当前行
     private int curCol = 0;     //当前列索引
     private int preCol = 0;     //上一列列索引
@@ -84,6 +85,8 @@ public class Excel2007Reader extends DefaultHandler {
             }
             pkg.close();//add by lfc 20130710,解决文件使用后无法删除的问题
             is.close();
+        } catch (ImportFileParseException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

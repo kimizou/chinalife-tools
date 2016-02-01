@@ -13,6 +13,7 @@ import com.chinalife.tools.util.excel.ExcelReaderUtil;
 import com.chinalife.tools.util.excel.PriceRowReader;
 import com.chinalife.tools.util.excel.WorkloadRowReader;
 import com.chinalife.tools.web.WebResult;
+import com.chinalife.tools.web.exception.ImportFileParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +64,7 @@ public class QuantitativeAssessmentController {
     @RequestMapping(value = "price/search", method = RequestMethod.POST)
     public WebResult<PageableContent<QuantitativePrice>> searchPrice(int currentPage, int rows, String taskName) {
         PageableContent<QuantitativePrice> data = quantitativePriceService.search(currentPage, rows, taskName);
-        return new WebResult<PageableContent<QuantitativePrice>>(BizResultCodeEnum.SUCCESS, data);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, data);
     }
 
     @ResponseBody
@@ -74,9 +75,11 @@ public class QuantitativeAssessmentController {
             ExcelReaderUtil.readExcel(rowReader, file.getOriginalFilename(), file.getInputStream());
         } catch (IOException e) {
             throw new BizException(e);
+        } catch (ImportFileParseException e) {
+            return new WebResult<>(null, e.getMessage(), false);
         }
         session.setAttribute(importWorkloadData, rowReader.getWorkloadDetails());
-        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS);
     }
 
     @ResponseBody
@@ -89,15 +92,16 @@ public class QuantitativeAssessmentController {
             throw new BizException(e);
         }
         session.setAttribute(importPriceData, rowReader.getQuantitativePrices());
-        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS);
     }
 
     @ResponseBody
     @RequestMapping(value = "price/import/search", method = RequestMethod.POST)
     public WebResult<PageableContent<QuantitativePrice>> importPriceSearch(int currentPage, int rows, HttpSession session) {
-        List<QuantitativePrice> list = new ArrayList<QuantitativePrice>();
+        List<QuantitativePrice> list = new ArrayList<>();
 
         int totalRows = 0;
+        @SuppressWarnings("unchecked")
         List<QuantitativePrice> data = (List<QuantitativePrice>) session.getAttribute(importPriceData);
         if (!CollectionUtils.isEmpty(data)) {
             totalRows = data.size();
@@ -108,17 +112,18 @@ public class QuantitativeAssessmentController {
             }
         }
 
-        PageableContent<QuantitativePrice> result = new PageableContent<QuantitativePrice>(list, currentPage, rows, totalRows);
+        PageableContent<QuantitativePrice> result = new PageableContent<>(list, currentPage, rows, totalRows);
 
-        return new WebResult<PageableContent<QuantitativePrice>>(BizResultCodeEnum.SUCCESS, result);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, result);
     }
 
     @ResponseBody
     @RequestMapping(value = "workload/import/search", method = RequestMethod.POST)
     public WebResult<PageableContent<WorkloadDetail>> importWorkloadSearch(int currentPage, int rows, HttpSession session) {
-        List<WorkloadDetail> list = new ArrayList<WorkloadDetail>();
+        List<WorkloadDetail> list = new ArrayList<>();
 
         int totalRows = 0;
+        @SuppressWarnings("unchecked")
         List<WorkloadDetail> data = (List<WorkloadDetail>) session.getAttribute(importWorkloadData);
         if (!CollectionUtils.isEmpty(data)) {
             totalRows = data.size();
@@ -129,38 +134,40 @@ public class QuantitativeAssessmentController {
             }
         }
 
-        PageableContent<WorkloadDetail> result = new PageableContent<WorkloadDetail>(list, currentPage, rows, totalRows);
+        PageableContent<WorkloadDetail> result = new PageableContent<>(list, currentPage, rows, totalRows);
 
-        return new WebResult<PageableContent<WorkloadDetail>>(BizResultCodeEnum.SUCCESS, result);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, result);
     }
 
     @ResponseBody
     @RequestMapping(value = "workload/import/save", method = RequestMethod.POST)
     public WebResult<String> importWorkloadSave(String yearMonth, HttpSession session) {
+        @SuppressWarnings("unchecked")
         List<WorkloadDetail> list = (List<WorkloadDetail>) session.getAttribute(importWorkloadData);
         if (CollectionUtils.isEmpty(list)) {
             throw new BizException("工作量数据不能为空，请先选择文件导入");
         }
         quantitativeAssessmentService.saveWorkLoad(yearMonth, list);
-        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS);
     }
 
     @ResponseBody
     @RequestMapping(value = "price/import/save", method = RequestMethod.POST)
-    public WebResult<String> importPriceSave(String yearMonth, HttpSession session) {
+    public WebResult<String> importPriceSave(HttpSession session) {
+        @SuppressWarnings("unchecked")
         List<QuantitativePrice> list = (List<QuantitativePrice>) session.getAttribute(importPriceData);
         if (CollectionUtils.isEmpty(list)) {
             throw new BizException("工作量数据不能为空，请先选择文件导入");
         }
         quantitativeAssessmentService.savePrices(list);
-        return new WebResult<String>(BizResultCodeEnum.SUCCESS);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS);
     }
 
     @ResponseBody
     @RequestMapping(value = "workload/search", method = RequestMethod.POST)
     public WebResult<PageableContent<Workload>> workloadSearch(int currentPage, int rows, String yearMonth) {
         PageableContent<Workload> list = quantitativeAssessmentService.searchWorkload(currentPage, rows, yearMonth);
-        return new WebResult<PageableContent<Workload>>(BizResultCodeEnum.SUCCESS, list);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, list);
     }
 
     @RequestMapping(value = "workload/detail", method = RequestMethod.GET)
@@ -173,14 +180,14 @@ public class QuantitativeAssessmentController {
     @RequestMapping(value = "workload/sum/search", method = RequestMethod.POST)
     public WebResult<PageableContent<SumResult>> sumResultSearch(int currentPage, int rows, Long workloadId) {
         PageableContent<SumResult> list = quantitativeAssessmentService.searchSumResult(currentPage, rows, workloadId);
-        return new WebResult<PageableContent<SumResult>>(BizResultCodeEnum.SUCCESS, list);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, list);
     }
 
     @ResponseBody
     @RequestMapping(value = "workload/detail/search", method = RequestMethod.POST)
     public WebResult<PageableContent<WorkloadDetail>> searchWorkloadDetails(int currentPage, int rows, Long workloadId) {
         PageableContent<WorkloadDetail> list = quantitativeAssessmentService.searchWorkloadDetails(currentPage, rows, workloadId);
-        return new WebResult<PageableContent<WorkloadDetail>>(BizResultCodeEnum.SUCCESS, list);
+        return new WebResult<>(BizResultCodeEnum.SUCCESS, list);
     }
 
     @RequestMapping(value = "price/import", method = RequestMethod.GET)

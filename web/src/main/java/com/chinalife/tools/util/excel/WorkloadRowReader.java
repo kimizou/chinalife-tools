@@ -2,6 +2,7 @@ package com.chinalife.tools.util.excel;
 
 import com.chinalife.tools.common.exception.BizException;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
+import com.chinalife.tools.web.exception.ImportFileParseException;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
@@ -14,7 +15,7 @@ public class WorkloadRowReader implements IRowReader {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    private List<WorkloadDetail> workloadDetails = new ArrayList<WorkloadDetail>();
+    private List<WorkloadDetail> workloadDetails = new ArrayList<>();
 
     /*
      * 业务逻辑实现方法
@@ -43,7 +44,7 @@ public class WorkloadRowReader implements IRowReader {
             workloadDetails.add(w);
         } catch (Exception e) {
             LOGGER.error(e.getStackTrace());
-            throw new BizException("解析失败，文件格式错误");
+            throw new ImportFileParseException("解析失败，文件格式错误");
         }
     }
 
