@@ -3,7 +3,7 @@ package com.chinalife.tools.service;
 import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.chinalife.tools.service;
 
 import com.chinalife.tools.dao.entity.PerfApprStaff;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 
 /**
  * Created by Administrator on 2016/1/17.

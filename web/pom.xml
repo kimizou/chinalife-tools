@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.chinalife.tools</groupId>
-            <artifactId>dao</artifactId>
+            <artifactId>service</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -37,11 +37,6 @@
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
             <version>1.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>4.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

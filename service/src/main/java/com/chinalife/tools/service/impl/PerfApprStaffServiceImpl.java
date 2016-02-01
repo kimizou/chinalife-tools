@@ -5,7 +5,7 @@ import com.chinalife.tools.dao.entity.PerfApprStaffExample;
 import com.chinalife.tools.dao.mapper.PerfApprStaffMapper;
 import com.chinalife.tools.dao.util.Page;
 import com.chinalife.tools.service.PerfApprStaffService;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

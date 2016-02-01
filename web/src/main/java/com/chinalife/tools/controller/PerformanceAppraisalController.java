@@ -2,8 +2,8 @@ package com.chinalife.tools.controller;
 
 import com.chinalife.tools.common.BizResultCodeEnum;
 import com.chinalife.tools.dao.entity.PerfApprStaff;
+import com.chinalife.tools.dao.util.PageableContent;
 import com.chinalife.tools.service.PerfApprStaffService;
-import com.chinalife.tools.util.PageableContent;
 import com.chinalife.tools.web.WebResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

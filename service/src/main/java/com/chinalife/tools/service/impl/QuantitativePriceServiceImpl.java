@@ -5,7 +5,7 @@ import com.chinalife.tools.dao.entity.QuantitativePriceExample;
 import com.chinalife.tools.dao.mapper.QuantitativePriceMapperExt;
 import com.chinalife.tools.dao.util.Page;
 import com.chinalife.tools.service.QuantitativePriceService;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

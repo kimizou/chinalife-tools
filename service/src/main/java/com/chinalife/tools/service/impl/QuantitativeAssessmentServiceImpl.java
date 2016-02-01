@@ -9,7 +9,7 @@ import com.chinalife.tools.dao.mapper.WorkloadDetailMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadMapperExt;
 import com.chinalife.tools.dao.util.Page;
 import com.chinalife.tools.service.QuantitativeAssessmentService;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

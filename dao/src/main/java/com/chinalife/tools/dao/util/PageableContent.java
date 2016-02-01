@@ -1,4 +1,4 @@
-package com.chinalife.tools.util;
+package com.chinalife.tools.dao.util;
 
 import java.util.List;
 

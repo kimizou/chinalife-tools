@@ -8,6 +8,7 @@
     <modules>
         <module>dao</module>
         <module>web</module>
+        <module>service</module>
     </modules>
     <name>tools Maven Webapp</name>
     <url>http://maven.apache.org</url>

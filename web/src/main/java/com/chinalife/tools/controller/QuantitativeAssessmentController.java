@@ -8,7 +8,7 @@ import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.service.QuantitativeAssessmentService;
 import com.chinalife.tools.service.QuantitativePriceService;
-import com.chinalife.tools.util.PageableContent;
+import com.chinalife.tools.dao.util.PageableContent;
 import com.chinalife.tools.util.excel.ExcelReaderUtil;
 import com.chinalife.tools.util.excel.RowReader;
 import com.chinalife.tools.web.WebResult;
