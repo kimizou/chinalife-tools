@@ -1,6 +1,7 @@
 package com.chinalife.tools.util.excel;
 
 import com.chinalife.tools.common.exception.BizException;
+import com.chinalife.tools.web.exception.ImportFileParseException;
 import org.apache.poi.hssf.eventusermodel.EventWorkbookBuilder.SheetRecordCollectingListener;
 import org.apache.poi.hssf.eventusermodel.FormatTrackingHSSFListener;
 import org.apache.poi.hssf.eventusermodel.HSSFEventFactory;
@@ -99,8 +100,10 @@ public class Excel2003Reader implements HSSFListener {
             }
             factory.processWorkbookEvents(request, fs);
             is.close();
+        } catch (ImportFileParseException e) {
+            throw e;
         } catch (Exception e) {
-            throw new BizException(e);
+            throw new RuntimeException(e);
         }
     }
 

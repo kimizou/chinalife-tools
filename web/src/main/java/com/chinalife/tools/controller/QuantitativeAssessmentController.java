@@ -90,6 +90,8 @@ public class QuantitativeAssessmentController {
             ExcelReaderUtil.readExcel(rowReader, file.getOriginalFilename(), file.getInputStream());
         } catch (IOException e) {
             throw new BizException(e);
+        } catch (ImportFileParseException e) {
+            return new WebResult<>(null, e.getMessage(), false);
         }
         session.setAttribute(importPriceData, rowReader.getQuantitativePrices());
         return new WebResult<>(BizResultCodeEnum.SUCCESS);

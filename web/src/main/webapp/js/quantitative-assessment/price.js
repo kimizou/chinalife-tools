@@ -9,22 +9,6 @@ $(function () {
     //    });
     //});
 
-    $('#fileToUpload').bind('change', function() {
-        $('#fileShowInput').val(this.value);
-        $.ajaxFileUpload({
-            url: '/quantitative-assessment/price/import',
-            secureuri: false,
-            fileElementId: 'fileToUpload',
-            dataType: 'json',
-            success: function (data, status) {
-                $("#hiddenSearch").click();
-            },
-            error: function (data, status, e) {
-                $("#result").append(data);
-            }
-        });
-    });
-
     $('#saveBtn').click(function () {
         $.post('/quantitative-assessment/price/import/save', function(result) {
             if (result && result.success) {
@@ -37,3 +21,25 @@ $(function () {
         });
     });
 });
+
+function uploadFile(val) {
+    $('#fileShowInput').val(val);
+    $.ajaxFileUpload({
+        url: '/quantitative-assessment/price/import',
+        secureuri: false,
+        fileElementId: 'fileToUpload',
+        dataType: 'json',
+        success: function (data) {
+            if (data && data.success) {
+                $("#hiddenSearch").click();
+            } else if (data && data.message) {
+                $.alert(data.message);
+            } else {
+                $.alert('导入失败');
+            }
+        },
+        error: function () {
+            $.alert('导入失败');
+        }
+    });
+}
