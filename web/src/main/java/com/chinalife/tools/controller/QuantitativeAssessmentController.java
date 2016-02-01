@@ -44,7 +44,7 @@ public class QuantitativeAssessmentController {
 
     @RequestMapping(value = "price", method = RequestMethod.GET)
     public String staffIndex() {
-        return "quantitative-assessment/price";
+        return "quantitative-assessment/price/index";
     }
 
     @RequestMapping(value = "workload", method = RequestMethod.GET)
