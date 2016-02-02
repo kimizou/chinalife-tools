@@ -1,6 +1,6 @@
 package com.chinalife.tools.util.excel;
 
-import com.chinalife.tools.common.exception.BizException;
+import com.chinalife.tools.web.exception.ImportFileParseException;
 
 import java.io.InputStream;
 
@@ -32,7 +32,7 @@ public class ExcelReaderUtil {
             excel07.setRowReader(reader);
             excel07.process(is);
         } else {
-            throw new BizException("文件格式错误，fileName的扩展名只能是xls或xlsx");
+            throw new ImportFileParseException("文件格式错误，扩展名只能是xls或xlsx");
         }
     }
 }

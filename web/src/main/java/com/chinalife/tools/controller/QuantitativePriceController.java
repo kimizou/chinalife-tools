@@ -89,7 +89,7 @@ public class QuantitativePriceController {
         @SuppressWarnings("unchecked")
         List<QuantitativePrice> list = (List<QuantitativePrice>) session.getAttribute(importPriceData);
         if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("工作量数据不能为空，请先选择文件导入");
+            throw new BizException("数据不能为空，请先选择文件导入");
         }
         quantitativePriceService.save(list);
         return new WebResult<>(BizResultCodeEnum.SUCCESS);

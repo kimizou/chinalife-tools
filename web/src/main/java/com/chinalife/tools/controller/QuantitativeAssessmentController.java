@@ -93,7 +93,7 @@ public class QuantitativeAssessmentController {
         @SuppressWarnings("unchecked")
         List<WorkloadDetail> list = (List<WorkloadDetail>) session.getAttribute(importWorkloadData);
         if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("工作量数据不能为空，请先选择文件导入");
+            throw new BizException("数据不能为空，请先选择文件导入");
         }
         quantitativeAssessmentService.saveWorkLoad(yearMonth, list);
         return new WebResult<>(BizResultCodeEnum.SUCCESS);

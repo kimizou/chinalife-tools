@@ -30,6 +30,7 @@ public class QuantitativePriceServiceImpl implements QuantitativePriceService {
         int total = quantitativePriceMapper.countByExample(example);
         if (total > 0) {
             example.setPage(new Page(currentPage, rows));
+            example.setOrderByClause("task_name");
             list = quantitativePriceMapper.selectByExample(example);
         }
         return new PageableContent<>(list, currentPage, rows, total);
