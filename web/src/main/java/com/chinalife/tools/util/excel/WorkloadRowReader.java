@@ -43,8 +43,7 @@ public class WorkloadRowReader implements IRowReader {
             w.setNum(Integer.valueOf(rowlist.get(9)));
             workloadDetails.add(w);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
+            LOGGER.error(e);
             throw new ImportFileParseException("解析失败，文件格式错误");
         }
     }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="default">
 <div layout:fragment="content">
-    <div class="box-content datatable">
+    <div class="box-content">
         <form class="searchForm">
             <div>
                 <input name="taskName" class="form-control w200 fl mr10" placeholder="请输入任务名称"/>
-                <a class="btn btn-search js-search fl f14" href="javascript:void(0);">
+                <a class="btn btn-green js-search fl f14" href="javascript:void(0);">
                     <i class="glyphicon glyphicon-search icon-white"></i> 搜索
                 </a>
                 <a class="btn btn-blue fr ml10" th:href="@{/quantitative-assessment/price/import}">
@@ -16,7 +16,7 @@
                 </a>
             </div>
             <div class="clearfix"></div>
-            <table id="table" class="mt10 table table-striped table-bordered bootstrap-datatable datatable responsive" th:href="@{/quantitative-assessment/price/search}">
+            <table id="table" class="mt10 table table-striped table-bordered bootstrap-datatable datatable responsive table-vcenter" th:href="@{/quantitative-assessment/price/search}">
                 <thead>
                 <tr>
                     <th>序号</th>
@@ -35,10 +35,10 @@
                     <td>{{taskName}}</td>
                     <td>￥{{price}}</td>
                     <td>
-                        <a href="javascript:void(0);" class="btn btn-blue f14">
+                        <a href="javascript:void(0);" class="btn btn-blue">
                             <i class="glyphicon glyphicon-edit icon-white"></i> 编辑
                         </a>
-                        <a class="btn js-ajax btn-red f14 js-delete" data-id="{{id}}" data-content="确认删除？" th:href="@{/quantitative-assessment/price/delete}">
+                        <a class="btn js-ajax btn-red js-delete" data-id="{{id}}" data-content="确认删除？" th:href="@{/quantitative-assessment/price/delete}">
                             <i class="glyphicon glyphicon-trash icon-white"></i> 删除
                         </a>
                     </td>
@@ -83,5 +83,6 @@
             </div>
         </div>
     </div>
+    <script th:src="@{/js/table.js}"></script>
 </div>
 </html>

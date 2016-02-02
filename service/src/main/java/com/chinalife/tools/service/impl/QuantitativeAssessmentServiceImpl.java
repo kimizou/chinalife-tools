@@ -48,6 +48,7 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         int totalCount = workloadMapperExt.countByExample(example);
         if (totalCount > 0) {
             example.setPage(new Page(currentPage, rows));
+            example.setOrderByClause("year_month_date desc");
             list = workloadMapperExt.selectByExample(example);
         }
         return new PageableContent<>(list, currentPage, rows, totalCount);

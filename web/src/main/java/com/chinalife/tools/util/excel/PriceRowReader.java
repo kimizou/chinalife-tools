@@ -25,7 +25,7 @@ public class PriceRowReader implements IRowReader {
             p.setPrice(BigDecimal.valueOf(Double.valueOf(rowlist.get(1))));
             quantitativePrices.add(p);
         } catch (Exception e) {
-            LOGGER.error(e.getStackTrace());
+            LOGGER.error(e);
             throw new ImportFileParseException("解析失败，文件格式错误");
         }
     }

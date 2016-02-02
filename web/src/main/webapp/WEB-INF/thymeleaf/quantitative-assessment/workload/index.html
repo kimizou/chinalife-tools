@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="default">
 <div layout:fragment="content">
-    <div class="box-content datatable">
+    <div class="box-content">
         <form class="searchForm">
             <div>
                 <input name="taskName" class="form-control w200 fl mr10" placeholder="请输入任务名称"/>
@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="clearfix"></div>
-            <table id="table" class="mt10 table table-striped table-bordered bootstrap-datatable datatable responsive" th:href="@{/quantitative-assessment/workload/search}">
+            <table id="table" class="mt10 table table-striped table-bordered bootstrap-datatable datatable responsive table-vcenter" th:href="@{/quantitative-assessment/workload/search}">
                 <thead>
                 <tr>
                     <th>序号</th>
@@ -30,10 +30,10 @@
                     <td>{{addOne @index}}</td>
                     <td>{{yearMonthDate}}</td>
                     <td>
-                        <a th:href="@{/quantitative-assessment/workload/detail?id={{id}}}" target="_blank" class="btn btn-blue f14">
+                        <a th:href="@{/quantitative-assessment/workload/detail?id={{id}}}" target="_blank" class="btn btn-blue">
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i> 查看
                         </a>
-                        <a class="btn js-ajax btn-danger f14 js-delete" data-id="{{id}}" data-content="确认删除？" th:href="@{/quantitative-assessment/price/delete}">
+                        <a class="btn js-ajax btn-red js-delete" data-id="{{id}}" data-content="确认删除？" th:href="@{/quantitative-assessment/price/delete}">
                             <i class="glyphicon glyphicon-trash icon-white"></i> 删除
                         </a>
                     </td>
@@ -78,6 +78,6 @@
             </div>
         </div>
     </div>
-
+    <script th:src="@{/js/table.js}"></script>
 </div>
 </html>
