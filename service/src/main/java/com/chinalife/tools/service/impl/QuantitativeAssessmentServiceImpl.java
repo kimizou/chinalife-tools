@@ -1,12 +1,10 @@
 package com.chinalife.tools.service.impl;
 
-import com.chinalife.tools.dao.entity.QuantitativePrice;
 import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.dao.entity.WorkloadDetailExample;
 import com.chinalife.tools.dao.entity.WorkloadExample;
-import com.chinalife.tools.dao.mapper.QuantitativePriceMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadDetailMapperExt;
 import com.chinalife.tools.dao.mapper.WorkloadMapperExt;
 import com.chinalife.tools.dao.util.Page;
@@ -32,9 +30,6 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
     @Autowired
     private WorkloadDetailMapperExt workloadDetailMapperExt;
 
-    @Autowired
-    private QuantitativePriceMapperExt quantitativePriceMapperExt;
-
     public void saveWorkLoad(String yearMonth, List<WorkloadDetail> workloadDetails) {
         Workload workload = new Workload();
         workload.setYearMonthDate(yearMonth);
@@ -42,14 +37,9 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
         workloadDetailMapperExt.insertWorkloads(workload.getId(), workloadDetails);
     }
 
-    public void savePrices(List<QuantitativePrice> quantitativePrices) {
-        quantitativePriceMapperExt.deleteByExample(null);
-        quantitativePriceMapperExt.insertPrices(quantitativePrices);
-    }
-
     @Transactional(readOnly = true)
     public PageableContent<Workload> searchWorkload(int currentPage, int rows, String yearMonth) {
-        List<Workload> list = new ArrayList<Workload>();
+        List<Workload> list = new ArrayList<>();
 
         WorkloadExample example = new WorkloadExample();
         if (StringUtils.hasText(yearMonth)) {
@@ -60,22 +50,22 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
             example.setPage(new Page(currentPage, rows));
             list = workloadMapperExt.selectByExample(example);
         }
-        return new PageableContent<Workload>(list, currentPage, rows, totalCount);
+        return new PageableContent<>(list, currentPage, rows, totalCount);
     }
 
     @Transactional(readOnly = true)
     public PageableContent<SumResult> searchSumResult(int currentPage, int rows, Long workloadId) {
-        List<SumResult> list = new ArrayList<SumResult>();
+        List<SumResult> list = new ArrayList<>();
         int totalCount = workloadDetailMapperExt.countSumResult(workloadId);
         if (totalCount > 0) {
             list = workloadDetailMapperExt.selectSumResult(workloadId, new Page(currentPage, rows));
         }
-        return new PageableContent<SumResult>(list, currentPage, rows, totalCount);
+        return new PageableContent<>(list, currentPage, rows, totalCount);
     }
 
     @Transactional(readOnly = true)
     public PageableContent<WorkloadDetail> searchWorkloadDetails(int currentPage, int rows, Long workloadId) {
-        List<WorkloadDetail> list = new ArrayList<WorkloadDetail>();
+        List<WorkloadDetail> list = new ArrayList<>();
         WorkloadDetailExample example = new WorkloadDetailExample();
         example.createCriteria().andWorkloadIdEqualTo(workloadId);
         int totalCount = workloadDetailMapperExt.countByExample(example);
@@ -83,6 +73,6 @@ public class QuantitativeAssessmentServiceImpl implements QuantitativeAssessment
             example.setPage(new Page(currentPage, rows));
             list = workloadDetailMapperExt.selectByExample(example);
         }
-        return new PageableContent<WorkloadDetail>(list, currentPage, rows, totalCount);
+        return new PageableContent<>(list, currentPage, rows, totalCount);
     }
 }

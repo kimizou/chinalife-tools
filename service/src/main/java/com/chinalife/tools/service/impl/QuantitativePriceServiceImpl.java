@@ -22,7 +22,7 @@ public class QuantitativePriceServiceImpl implements QuantitativePriceService {
     private QuantitativePriceMapperExt quantitativePriceMapper;
 
     public PageableContent<QuantitativePrice> search(int currentPage, int rows, String taskName) {
-        List<QuantitativePrice> list = new ArrayList<QuantitativePrice>();
+        List<QuantitativePrice> list = new ArrayList<>();
         QuantitativePriceExample example = new QuantitativePriceExample();
         if (StringUtils.hasText(taskName)) {
             example.createCriteria().andTaskNameLike("%" + taskName.trim() + "%");
@@ -32,6 +32,11 @@ public class QuantitativePriceServiceImpl implements QuantitativePriceService {
             example.setPage(new Page(currentPage, rows));
             list = quantitativePriceMapper.selectByExample(example);
         }
-        return new PageableContent<QuantitativePrice>(list, currentPage, rows, total);
+        return new PageableContent<>(list, currentPage, rows, total);
+    }
+
+    public void save(List<QuantitativePrice> quantitativePrices) {
+        quantitativePriceMapper.deleteByExample(null);
+        quantitativePriceMapper.insertPrices(quantitativePrices);
     }
 }

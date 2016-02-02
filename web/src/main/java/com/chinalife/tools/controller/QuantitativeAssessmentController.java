@@ -2,15 +2,12 @@ package com.chinalife.tools.controller;
 
 import com.chinalife.tools.common.BizResultCodeEnum;
 import com.chinalife.tools.common.exception.BizException;
-import com.chinalife.tools.dao.entity.QuantitativePrice;
 import com.chinalife.tools.dao.entity.SumResult;
 import com.chinalife.tools.dao.entity.Workload;
 import com.chinalife.tools.dao.entity.WorkloadDetail;
 import com.chinalife.tools.service.QuantitativeAssessmentService;
-import com.chinalife.tools.service.QuantitativePriceService;
 import com.chinalife.tools.dao.util.PageableContent;
 import com.chinalife.tools.util.excel.ExcelReaderUtil;
-import com.chinalife.tools.util.excel.PriceRowReader;
 import com.chinalife.tools.util.excel.WorkloadRowReader;
 import com.chinalife.tools.web.WebResult;
 import com.chinalife.tools.web.exception.ImportFileParseException;
@@ -36,18 +33,9 @@ import java.util.List;
 @RequestMapping("quantitative-assessment")
 public class QuantitativeAssessmentController {
     private static final String importWorkloadData = "importWorkloadData";
-    private static final String importPriceData = "importPriceData";
-
-    @Autowired
-    private QuantitativePriceService quantitativePriceService;
 
     @Autowired
     private QuantitativeAssessmentService quantitativeAssessmentService;
-
-    @RequestMapping(value = "price", method = RequestMethod.GET)
-    public String staffIndex() {
-        return "quantitative-assessment/price/index";
-    }
 
     @RequestMapping(value = "workload", method = RequestMethod.GET)
     public String workloadIndex() {
@@ -58,13 +46,6 @@ public class QuantitativeAssessmentController {
     public String workloadAdd(HttpSession session) {
         session.removeAttribute(importWorkloadData);
         return "quantitative-assessment/workload/add";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "price/search", method = RequestMethod.POST)
-    public WebResult<PageableContent<QuantitativePrice>> searchPrice(int currentPage, int rows, String taskName) {
-        PageableContent<QuantitativePrice> data = quantitativePriceService.search(currentPage, rows, taskName);
-        return new WebResult<>(BizResultCodeEnum.SUCCESS, data);
     }
 
     @ResponseBody
@@ -82,42 +63,7 @@ public class QuantitativeAssessmentController {
         return new WebResult<>(BizResultCodeEnum.SUCCESS);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "price/import", method = RequestMethod.POST)
-    public WebResult<String> importPrice(@RequestParam("fileToUpload") MultipartFile file, HttpSession session) {
-        PriceRowReader rowReader = new PriceRowReader();
-        try {
-            ExcelReaderUtil.readExcel(rowReader, file.getOriginalFilename(), file.getInputStream());
-        } catch (IOException e) {
-            throw new BizException(e);
-        } catch (ImportFileParseException e) {
-            return new WebResult<>(null, e.getMessage(), false);
-        }
-        session.setAttribute(importPriceData, rowReader.getQuantitativePrices());
-        return new WebResult<>(BizResultCodeEnum.SUCCESS);
-    }
 
-    @ResponseBody
-    @RequestMapping(value = "price/import/search", method = RequestMethod.POST)
-    public WebResult<PageableContent<QuantitativePrice>> importPriceSearch(int currentPage, int rows, HttpSession session) {
-        List<QuantitativePrice> list = new ArrayList<>();
-
-        int totalRows = 0;
-        @SuppressWarnings("unchecked")
-        List<QuantitativePrice> data = (List<QuantitativePrice>) session.getAttribute(importPriceData);
-        if (!CollectionUtils.isEmpty(data)) {
-            totalRows = data.size();
-            int startIndex = (currentPage - 1) * rows;
-            int endIndex = startIndex + rows - 1;
-            for (int i = startIndex; i <= endIndex && i <= data.size() - 1; i++) {
-                list.add(data.get(i));
-            }
-        }
-
-        PageableContent<QuantitativePrice> result = new PageableContent<>(list, currentPage, rows, totalRows);
-
-        return new WebResult<>(BizResultCodeEnum.SUCCESS, result);
-    }
 
     @ResponseBody
     @RequestMapping(value = "workload/import/search", method = RequestMethod.POST)
@@ -154,18 +100,6 @@ public class QuantitativeAssessmentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "price/import/save", method = RequestMethod.POST)
-    public WebResult<String> importPriceSave(HttpSession session) {
-        @SuppressWarnings("unchecked")
-        List<QuantitativePrice> list = (List<QuantitativePrice>) session.getAttribute(importPriceData);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("工作量数据不能为空，请先选择文件导入");
-        }
-        quantitativeAssessmentService.savePrices(list);
-        return new WebResult<>(BizResultCodeEnum.SUCCESS);
-    }
-
-    @ResponseBody
     @RequestMapping(value = "workload/search", method = RequestMethod.POST)
     public WebResult<PageableContent<Workload>> workloadSearch(int currentPage, int rows, String yearMonth) {
         PageableContent<Workload> list = quantitativeAssessmentService.searchWorkload(currentPage, rows, yearMonth);
@@ -192,9 +126,4 @@ public class QuantitativeAssessmentController {
         return new WebResult<>(BizResultCodeEnum.SUCCESS, list);
     }
 
-    @RequestMapping(value = "price/import", method = RequestMethod.GET)
-    public String priceImport(HttpSession session) {
-        session.removeAttribute(importPriceData);
-        return "quantitative-assessment/price/import";
-    }
 }
