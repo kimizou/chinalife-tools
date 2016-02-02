@@ -35,7 +35,7 @@
                     <td>{{taskName}}</td>
                     <td>￥{{price}}</td>
                     <td>
-                        <a href="javascript:void(0);" class="btn btn-blue">
+                        <a class="btn btn-blue editBtn" href="javascript:void(0);" data-taskname="{{taskName}}" data-price="{{price}}">
                             <i class="glyphicon glyphicon-edit icon-white"></i> 编辑
                         </a>
                         <a class="btn js-ajax btn-red js-delete" data-id="{{id}}" data-content="确认删除？" th:href="@{/quantitative-assessment/price/delete}">
@@ -48,41 +48,51 @@
         </form>
     </div>
 
-    <div class="hide">
-        <div id="importDialog">
-            <div class="ui-dialog-title f16"><b>导入量化单价</b> </div>
-            <div style="min-height: 500px;">
-                <table class="table table-striped table-bordered bootstrap-datatable datatable responsive mt10 p20">
-                    <thead>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade f14" id="editModal" tabindex="-1" role="dialog"
+         aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog w500">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">
+                        编辑量化单价
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table>
                         <tr>
-                            <th>任务名称</th>
-                            <th>量化单价</th>
+                            <td width="150" align="right"><div class="mb10">任务名称：</div></td>
+                            <td><input name="taskName" class="form-control w200 mb10 ml20" placeholder="请输入任务名称"/></td>
                         </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                <div class="pagination" data-pagesize='20'></div>
-                <script id="import-table-template" type="text/x-handlebars-template">
-                    {{#each data.content}}
-                    <tr>
-                        <td>{{addOne @index}}</td>
-                        <td>{{taskName}}</td>
-                        <td>{{price}}</td>
-                        <td></td>
-                    </tr>
-                    {{/each}}
-                </script>
-            </div>
-            <div class="dialog-action">
-                <form name="form" method="post" enctype="multipart/form-data">
-                    <input type="file" id="fileToUpload" class="hide" name="fileToUpload"/>
-                </form>
-                <a class="btn btn-success mt20 mr20 w80 f14 ml10 fl" id="chooseFile">选择文件</a>
-                <a class="btn btn-success mt20 mr20 w80 f14 ml10 fr" id="js-save">保存</a>
-                <a class="btn btn-white mt20 w80 js-dialog-close f14 fr">取消</a>
-            </div>
-        </div>
+                        <tr>
+                            <td align="right"><div class="mb10">量化单价：</div></td>
+                            <td><input name="price" class="form-control w200 ml20" placeholder="请输入任务名称"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
     <script th:src="@{/js/table.js}"></script>
+    <script>
+        $('table').on('click', '.editBtn', function() {
+            $('#editModal input[name="taskName"]').val($(this).data('taskname'));
+            $('#editModal input[name="price"]').val($(this).data('price'));
+            $('#editModal').modal({
+            });
+        });
+    </script>
 </div>
 </html>

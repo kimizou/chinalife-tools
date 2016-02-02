@@ -1,5 +1,4 @@
 $(function() {
-
     $('form.searchForm').each(function() {
         var page = 1;
         var nodata = "没有相关内容";
@@ -133,52 +132,5 @@ $(function() {
             bindData();
         });
     });
-
-    // 删除提交
-    $('body').on('click', '.js-delete', function() {
-        var content = $(this).data('content');
-        var sectitle = $(this).data('sectitle') || '';
-        if (sectitle) {
-            content += '<div class="confirm-title2">' + sectitle + '</div>';
-        }
-        var data = {
-            id: $(this).data("id")
-        };
-        var url = $(this).attr('href');
-        $.confirm(content, null, function(type) {
-            var _this = this;
-            if (type == 'yes') {
-                $.post(url, data, function(data) {
-                    if (data && data.success) {
-                        $.alert('删除成功!');
-                        page = 1;
-                        bindData();
-                        _this.hide();
-                    } else {
-                        $.alert('删除失败!');
-                    }
-                }, 'json');
-            } else {
-                _this.hide();
-            }
-        });
-        return false;
-    });
-
-    if ($("#ajaxloading").size() == 0) {
-        $('body').append('<div id="ajaxloading"><i></i></div>');
-    }
-    if(typeof noloading =="undefined") {
-        $.ajaxSetup({
-            beforeSend:function() {
-                $('#ajaxloading').show();
-            },
-            complete:function() {
-                $('#ajaxloading').hide();
-            },error:function() {
-                $('#ajaxloading').hide();
-            }
-        });
-    }
 
 });
